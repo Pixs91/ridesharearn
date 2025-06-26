@@ -137,14 +137,13 @@ export default function EarningsTracker() {
     uberTotalEarnings: earnings.uberTotalEarnings,
     boltCashEarnings: earnings.boltCashEarnings,
     uberCashEarnings: earnings.uberCashEarnings,
-    totalEarnings: earnings.boltTotalEarnings + earnings.uberTotalEarnings,
+    totalEarnings: earnings.boltTotalEarnings + earnings.uberTotalEarnings + earnings.boltCashEarnings + earnings.uberCashEarnings,
     platformFee: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) * 0.1,
     fixedDeduction: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 999 ? 45 : 25,
     totalCashEarnings: earnings.boltCashEarnings + earnings.uberCashEarnings,
-    netEarnings: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) - 
+    netEarnings: (earnings.boltTotalEarnings + earnings.uberTotalEarnings + earnings.boltCashEarnings + earnings.uberCashEarnings) - 
                  ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) * 0.1) -
-                 ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 999 ? 45 : 25) +
-                 (earnings.boltCashEarnings + earnings.uberCashEarnings),
+                 ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 999 ? 45 : 25),
   };
 
   const earningsDifference = previousWeek 
@@ -322,11 +321,9 @@ export default function EarningsTracker() {
                     <span className="font-semibold text-warning">-{formatCurrency(displayData.fixedDeduction)}</span>
                   </div>
                   
-                  <div className="bg-success bg-opacity-10 rounded-lg p-4 mt-6">
-                    <div className="flex justify-between items-center">
-                      <span className="text-lg font-semibold text-success">Net Earnings (including cash)</span>
-                      <span className="text-2xl font-bold text-success">{formatCurrency(displayData.netEarnings)}</span>
-                    </div>
+                  <div className="flex justify-between items-center py-3 border-t-2 border-success mt-6">
+                    <span className="text-lg font-semibold text-success">Net Earnings</span>
+                    <span className="text-2xl font-bold text-success">{formatCurrency(displayData.netEarnings)}</span>
                   </div>
                 </div>
               </CardContent>
