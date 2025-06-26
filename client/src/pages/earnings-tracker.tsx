@@ -116,6 +116,15 @@ export default function EarningsTracker() {
   }, [earnings]);
 
   const handleInputChange = (field: keyof typeof earnings, value: string) => {
+    // Handle empty string to allow clearing the field
+    if (value === '') {
+      setEarnings(prev => ({
+        ...prev,
+        [field]: 0,
+      }));
+      return;
+    }
+    
     const numValue = Math.max(0, parseFloat(value) || 0);
     setEarnings(prev => ({
       ...prev,
@@ -209,11 +218,11 @@ export default function EarningsTracker() {
                           placeholder="0.00"
                           step="0.01"
                           min="0"
-                          value={earnings.boltTotalEarnings}
+                          value={earnings.boltTotalEarnings === 0 ? '' : earnings.boltTotalEarnings}
                           onChange={(e) => handleInputChange('boltTotalEarnings', e.target.value)}
                           className="pl-8 pr-12"
                         />
-                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">L</span>
                         <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">RON</span>
                       </div>
                     </div>
@@ -229,11 +238,11 @@ export default function EarningsTracker() {
                           placeholder="0.00"
                           step="0.01"
                           min="0"
-                          value={earnings.uberTotalEarnings}
+                          value={earnings.uberTotalEarnings === 0 ? '' : earnings.uberTotalEarnings}
                           onChange={(e) => handleInputChange('uberTotalEarnings', e.target.value)}
                           className="pl-8 pr-12"
                         />
-                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">L</span>
                         <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">RON</span>
                       </div>
                     </div>
@@ -256,11 +265,11 @@ export default function EarningsTracker() {
                           placeholder="0.00"
                           step="0.01"
                           min="0"
-                          value={earnings.boltCashEarnings}
+                          value={earnings.boltCashEarnings === 0 ? '' : earnings.boltCashEarnings}
                           onChange={(e) => handleInputChange('boltCashEarnings', e.target.value)}
                           className="pl-8 pr-12"
                         />
-                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">L</span>
                         <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">RON</span>
                       </div>
                     </div>
@@ -276,11 +285,11 @@ export default function EarningsTracker() {
                           placeholder="0.00"
                           step="0.01"
                           min="0"
-                          value={earnings.uberCashEarnings}
+                          value={earnings.uberCashEarnings === 0 ? '' : earnings.uberCashEarnings}
                           onChange={(e) => handleInputChange('uberCashEarnings', e.target.value)}
                           className="pl-8 pr-12"
                         />
-                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">L</span>
                         <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">RON</span>
                       </div>
                     </div>
@@ -308,7 +317,7 @@ export default function EarningsTracker() {
                   </div>
                   
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Platform Fee (10%)</span>
+                    <span className="text-gray-600">Fleet Commission (10%)</span>
                     <span className="font-semibold text-warning">-{formatCurrency(displayData.platformFee)}</span>
                   </div>
                   

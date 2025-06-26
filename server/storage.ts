@@ -105,8 +105,13 @@ export class MemStorage implements IStorage {
     const calculations = this.calculateEarnings(insertEarnings);
     const id = this.currentId++;
     const earnings: WeeklyEarnings = {
-      ...insertEarnings,
       id,
+      weekStartDate: insertEarnings.weekStartDate,
+      weekEndDate: insertEarnings.weekEndDate,
+      boltTotalEarnings: insertEarnings.boltTotalEarnings || 0,
+      uberTotalEarnings: insertEarnings.uberTotalEarnings || 0,
+      boltCashEarnings: insertEarnings.boltCashEarnings || 0,
+      uberCashEarnings: insertEarnings.uberCashEarnings || 0,
       ...calculations,
       createdAt: new Date(),
     };
