@@ -139,11 +139,12 @@ export default function EarningsTracker() {
     uberCashEarnings: earnings.uberCashEarnings,
     totalEarnings: earnings.boltTotalEarnings + earnings.uberTotalEarnings,
     platformFee: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) * 0.1,
-    fixedDeduction: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 1000 ? 45 : 25,
+    fixedDeduction: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 999 ? 45 : 25,
     totalCashEarnings: earnings.boltCashEarnings + earnings.uberCashEarnings,
     netEarnings: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) - 
                  ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) * 0.1) -
-                 ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 1000 ? 45 : 25),
+                 ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 999 ? 45 : 25) +
+                 (earnings.boltCashEarnings + earnings.uberCashEarnings),
   };
 
   const earningsDifference = previousWeek 
@@ -321,22 +322,10 @@ export default function EarningsTracker() {
                     <span className="font-semibold text-warning">-{formatCurrency(displayData.fixedDeduction)}</span>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4 mt-4">
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-lg font-semibold text-gray-700">Net Earnings (after deductions)</span>
-                      <span className="text-xl font-bold">{formatCurrency(displayData.netEarnings)}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100 mt-4">
-                    <span className="text-gray-600">Total Cash Earnings</span>
-                    <span className="font-semibold text-success">+{formatCurrency(displayData.totalCashEarnings)}</span>
-                  </div>
-                  
                   <div className="bg-success bg-opacity-10 rounded-lg p-4 mt-6">
                     <div className="flex justify-between items-center">
-                      <span className="text-lg font-semibold text-success">Final Remaining Amount</span>
-                      <span className="text-2xl font-bold text-success">{formatCurrency(displayData.netEarnings + displayData.totalCashEarnings)}</span>
+                      <span className="text-lg font-semibold text-success">Net Earnings (including cash)</span>
+                      <span className="text-2xl font-bold text-success">{formatCurrency(displayData.netEarnings)}</span>
                     </div>
                   </div>
                 </div>

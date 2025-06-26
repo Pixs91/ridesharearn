@@ -31,9 +31,9 @@ export class MemStorage implements IStorage {
 
     const totalEarnings = boltTotal + uberTotal;
     const platformFee = totalEarnings * 0.1; // 10%
-    const fixedDeduction = totalEarnings > 1000 ? 45 : 25;
+    const fixedDeduction = totalEarnings > 999 ? 45 : 25;
     const totalCashEarnings = boltCash + uberCash;
-    const netEarnings = totalEarnings - platformFee - fixedDeduction;
+    const netEarnings = totalEarnings - platformFee - fixedDeduction + totalCashEarnings;
 
     return {
       totalEarnings,
