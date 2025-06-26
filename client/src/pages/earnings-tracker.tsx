@@ -141,7 +141,7 @@ export default function EarningsTracker() {
     platformFee: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) * 0.1,
     fixedDeduction: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 999 ? 45 : 25,
     totalCashEarnings: earnings.boltCashEarnings + earnings.uberCashEarnings,
-    netEarnings: (earnings.boltTotalEarnings + earnings.uberTotalEarnings + earnings.boltCashEarnings + earnings.uberCashEarnings) - 
+    netEarnings: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) - 
                  ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) * 0.1) -
                  ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 999 ? 45 : 25),
   };
@@ -319,6 +319,11 @@ export default function EarningsTracker() {
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
                     <span className="text-gray-600">Fixed Deduction</span>
                     <span className="font-semibold text-warning">-{formatCurrency(displayData.fixedDeduction)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-gray-600">Cash Earnings</span>
+                    <span className="font-semibold text-success">+{formatCurrency(displayData.totalCashEarnings)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center py-3 border-t-2 border-success mt-6">
