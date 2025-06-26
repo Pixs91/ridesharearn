@@ -94,7 +94,15 @@ The application is configured for deployment on Replit with the following setup:
 
 ## Changelog
 
-- June 26, 2025. Initial setup
+- June 26, 2025: Initial setup
+- June 26, 2025: Application completed with all features working:
+  - Weekly earnings tracker with automatic Sunday resets (GMT+2)
+  - Separate inputs for Bolt and Uber total/cash earnings
+  - Automatic calculations: Fleet Commission (10%), Fixed Deduction (25/45 RON), Net Earnings
+  - RON currency formatting and Romanian timezone support
+  - Real-time updates with debounced saving
+  - Previous week comparison with difference display
+  - Proper calculation logic: Total earnings include cash, net earnings exclude cash, threshold based on total earnings
 
 ## User Preferences
 
