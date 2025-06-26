@@ -3,10 +3,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { formatWeekPeriod, formatNextReset, formatCurrency } from "@/lib/timezone";
-import { Car, Wallet, Calculator, ChartLine, InfoIcon, Zap, Banknote } from "lucide-react";
+import { Car, Wallet, Calculator, ChartLine, InfoIcon, Zap, Banknote, Download, X } from "lucide-react";
 
 interface WeeklyEarnings {
   id?: number;
@@ -43,6 +44,46 @@ export default function EarningsTracker() {
     boltCashEarnings: 0,
     uberCashEarnings: 0,
   });
+
+  // PWA Install prompt state
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallPrompt(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) {
+      // Show manual instructions for browsers that don't support beforeinstallprompt
+      toast({
+        title: "Install FirstClass Drive",
+        description: "In Chrome: Menu (⋮) → Add to Home Screen. In Safari: Share → Add to Home Screen",
+        duration: 8000,
+      });
+      return;
+    }
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+      toast({
+        title: "App Installing",
+        description: "FirstClass Drive is being added to your home screen",
+      });
+    }
+    
+    setDeferredPrompt(null);
+    setShowInstallPrompt(false);
+  };
 
   // Fetch current week earnings
   const { data: currentWeek, isLoading: currentLoading } = useQuery<WeeklyEarnings>({
@@ -171,6 +212,36 @@ export default function EarningsTracker() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
+      {/* PWA Install Prompt */}
+      {showInstallPrompt && (
+        <div className="bg-blue-600 text-white px-4 py-3 relative">
+          <div className="max-w-4xl mx-auto flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Download className="h-5 w-5" />
+              <span className="text-sm font-medium">Install FirstClass Drive on your phone for quick access</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="text-blue-600 border-white hover:bg-white/10"
+                onClick={handleInstallClick}
+              >
+                Install
+              </Button>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="text-white hover:bg-white/10"
+                onClick={() => setShowInstallPrompt(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-primary text-white shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-6">
@@ -179,11 +250,22 @@ export default function EarningsTracker() {
               <Car className="h-8 w-8" />
               <h1 className="text-2xl font-bold">FirstClass Drive</h1>
             </div>
-            <div className="text-right">
-              <p className="text-sm opacity-90">Current Week</p>
-              <p className="font-semibold">
-                {weekInfo ? formatWeekPeriod(weekInfo.currentWeek.start, weekInfo.currentWeek.end) : 'Loading...'}
-              </p>
+            <div className="text-right flex items-center space-x-4">
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="text-white border-white hover:bg-white/10 hidden sm:flex"
+                onClick={handleInstallClick}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Install App
+              </Button>
+              <div className="text-right">
+                <p className="text-sm opacity-90">Current Week</p>
+                <p className="font-semibold">
+                  {weekInfo ? formatWeekPeriod(weekInfo.currentWeek.start, weekInfo.currentWeek.end) : 'Loading...'}
+                </p>
+              </div>
             </div>
           </div>
         </div>
