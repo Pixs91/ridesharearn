@@ -184,7 +184,7 @@ export default function EarningsTracker() {
     totalCashEarnings: earnings.boltCashEarnings + earnings.uberCashEarnings,
     netEarnings: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) - 
                  ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) * 0.1) -
-                 ((earnings.boltTotalEarnings + earnings.uberTotalEarnings - earnings.boltCashEarnings - earnings.uberCashEarnings) > 999 ? 45 : 25),
+                 ((earnings.boltTotalEarnings + earnings.uberTotalEarnings) > 999 ? 45 : 25) - earnings.boltCashEarnings - earnings.uberCashEarnings,
   };
 
   const earningsDifference = previousWeek 
