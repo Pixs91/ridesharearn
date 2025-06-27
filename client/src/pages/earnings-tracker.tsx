@@ -178,7 +178,7 @@ export default function EarningsTracker() {
     uberTotalEarnings: earnings.uberTotalEarnings,
     boltCashEarnings: earnings.boltCashEarnings,
     uberCashEarnings: earnings.uberCashEarnings,
-    totalEarnings: earnings.boltTotalEarnings + earnings.uberTotalEarnings + earnings.boltCashEarnings + earnings.uberCashEarnings,
+    totalEarnings: earnings.boltTotalEarnings + earnings.uberTotalEarnings,
     platformFee: (earnings.boltTotalEarnings + earnings.uberTotalEarnings) * 0.1,
     fixedDeduction: (earnings.boltTotalEarnings + earnings.uberTotalEarnings + earnings.boltCashEarnings + earnings.uberCashEarnings) > 999 ? 45 : 25,
     totalCashEarnings: earnings.boltCashEarnings + earnings.uberCashEarnings,
